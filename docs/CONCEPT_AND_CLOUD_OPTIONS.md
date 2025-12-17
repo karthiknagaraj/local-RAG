@@ -404,14 +404,14 @@ def query():
 ## Option 3: Teradata Vector Store + Google Cloud Integration
 
 ### Use Case
-Organizations with existing Teradata data warehouse want to integrate RAG without moving data.
+Organizations with Teradata deployed in Google Cloud VMware Engine (GCVE) want to integrate RAG without moving data. Teradata in GCVE runs inside your GCP project with private networking, enabling low-latency access to other Google Cloud services.
 
 ### Architecture
 
 ```mermaid
 graph TB
-    subgraph "On-Premises / Existing Infrastructure"
-        TERADATA["🗄️ Teradata Data Warehouse<br/>Existing Data"]
+    subgraph "Teradata in Google Cloud VMware Engine (GCVE)"
+        TERADATA["🗄️ Teradata (GCVE) - Data Warehouse"]
         TERADATA_VDB["🔍 Teradata Vector Store<br/>New Feature"]
     end
     
@@ -455,9 +455,11 @@ graph TB
 | Vector storage | Store document embeddings | Teradata Vector Column Type |
 | Similarity search | Find related vectors | Teradata VECTOR_DISTANCE() |
 | Metadata | Document source, chunk ID, date | Teradata standard columns |
-| Replication | Sync with Google Cloud | Datastream (CDC) |
+| Replication | Sync with Google Cloud | Datastream (CDC) or partner CDC (e.g., Fivetran, Confluent) over private connectivity (VPC peering / GCVE networking) |
 | LLM | Generate answers | Vertex AI |
 | Analytics | Query patterns, performance | BigQuery |
+
+**Note:** Teradata in GCVE runs inside your GCP project with private networking. For secure communication and replication you should configure private connectivity (VPC peering, private service connect, internal load balancer, Cloud VPN or Cloud Interconnect) between GCVE and your Google Cloud services (Cloud Run, Datastream, BigQuery). Ensure firewall and IAM rules permit the necessary connections and consider using a partner CDC solution if native Datastream connectors are not available for your Teradata configuration.
 
 ### Implementation
 

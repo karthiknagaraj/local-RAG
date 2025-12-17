@@ -1,0 +1,22 @@
+# Local RAG configuration
+# Path to your knowledge base documents (recursive)
+docs_dir: "c:/Users/karthik.nagaraj/Documents/GH-EDW Knowledge Base"
+
+# Where to persist vector index and metadata
+index_dir: "c:/Users/karthik.nagaraj/Documents/GH-EDW Knowledge Base/local_rag/index"
+
+# Embedding model id (SentenceTransformers)
+embedding_model: "all-MiniLM-L6-v2"
+
+# Retrieval
+top_k: 5
+chunk_size: 1200
+chunk_overlap: 200
+
+# LLM configuration (llama.cpp GGUF)
+# Upgraded to Qwen 2.5 3B for better quality (no spelling errors)
+model_path: "c:/Users/karthik.nagaraj/Documents/GH-EDW Knowledge Base/local_rag/models/qwen2.5-3b-instruct-q4_k_m.gguf"
+# LLM runtime options
+n_ctx: 4096
+n_threads: null  # null = use CPU cores
+n_gpu_layers: 0   # 0 = CPU only; increase if you have GPU acceleration

@@ -5,18 +5,18 @@
 ## Diagram (Mermaid)
 
 ```mermaid
-flowchart LR
+graph LR
   subgraph Sources
-    A1[Confluence Wiki]
-    A2[Git - Markdown / SQL]
-    A3[Local Files - PDF DOCX PPT XLSX]
-    A4[Teradata GCVE Exports / CDC]
-    A5[GCS S3 - Parquet / CSV]
-    A6[Reports & Dashboards - BigQuery / Looker / Tableau]
+    A1[Confluence]
+    A2[Git]
+    A3[Local Files]
+    A4[Teradata GCVE]
+    A5[GCS/S3]
+    A6[Reports]
   end
 
   subgraph Connectors
-    C[Connector Workers / Syncers<br>Confluence API / Git sync / GCVE exporter / GCS watch]
+    C[Connectors]
   end
 
   A1 --> C
@@ -27,30 +27,26 @@ flowchart LR
   A6 --> C
 
   C --> D[Fetch & Normalize]
-  D --> E[Parsing & Extraction<br>text / images / tables / SQL / DDL]
-  E --> F[Preprocess & Chunking<br>chunk_size=1200 overlap=200]
-  F --> G[Embeddings<br>all-MiniLM-L6-v2]
-  G --> H[Vector Index - FAISS (local)]
-  F --> M[Metadata Store - JSONL / SQLite / Postgres]
+  D --> E[Parsing & Extraction]
+  E --> F[Chunking]
+  F --> G[Embeddings]
+  G --> H[Vector Index]
+  F --> M[Metadata Store]
 
-  H --> R[Retrieval Layer - top-K + filters]
+  H --> R[Retrieval Layer]
   M --> R
 
-  R --> LLM[LLM - Local Qwen 2.5 GGUF]
-  LLM --> UI[Web UI - Gradio]
-  LLM --> API[CLI / HTTP API]
+  R --> LLM[LLM]
+  LLM --> UI[Web UI]
+  LLM --> API[API]
 
-  UI --> FB[User Feedback - thumbs up / down]
-  FB --> N[Relevance Signals & Retrain / Reindex]
+  UI --> FB[Feedback]
+  FB --> N[Relevance Signals]
   N --> G
 
   C -.-> S[Secrets & IAM]
-  S -.-> C
-  D -.-> Q[PII Detection / Redaction]
+  D -.-> Q[PII Detection]
   Q -.-> M
-
-  classDef sources fill:#f9f,stroke:#333,stroke-width:1px;
-  class A1,A2,A3,A4,A5,A6 sources
 ```
 
 ---

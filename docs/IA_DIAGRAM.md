@@ -13,6 +13,8 @@ graph LR
     A4[Teradata GCVE]
     A5[GCS/S3]
     A6[Reports]
+    A7[Incidents / Tickets / Feedback]
+    A8[Jira - User Stories]
   end
 
   subgraph Connectors
@@ -25,6 +27,8 @@ graph LR
   A4 --> C
   A5 --> C
   A6 --> C
+  A7 --> C
+  A8 --> C
 
   C --> D[Fetch & Normalize]
   D --> E[Parsing & Extraction]
@@ -53,7 +57,7 @@ graph LR
 
 ## Key Components
 
-- **Sources**: Confluence pages, Git repos (Markdown, SQL), local documents (PDF/DOCX), Teradata (GCVE) exports or CDC, cloud buckets (GCS/S3), reporting systems (BigQuery, Looker).  
+- **Sources**: Confluence pages, Git repos (Markdown, SQL), local documents (PDF/DOCX), Teradata (GCVE) exports or CDC, cloud buckets (GCS/S3), reporting systems (BigQuery, Looker), **operations** sources (incident/ticket systems and customer feedback), and **delivery** sources (Jira user stories, epics).  
 - **Connectors**: Lightweight, incremental syncers (APIs or agents in GCVE for Teradata). Prefer running a connector inside GCVE for Teradata to use private networking.  
 - **Fetch & Normalize**: Download file, capture original path/URL, compute checksum, set base metadata (owner, source, created_at).  
 - **Parsing**: PDF/Word/OCR, HTML/Confluence rendering, SQL/DDL extraction, CSV/Parquet parsing (extract schema).  
@@ -91,6 +95,8 @@ graph LR
 - **Mapping / ETL**: source_table → target_table mapping, field-level transformations, jobs that run them, schedule.  
 - **SQL, Views & Procedures**: DDL, definitions, authors, last-modified, typical query patterns.  
 - **Reports / Dashboards**: metric definitions, source views, frequencies.
+- **Operations**: incidents, trouble tickets, support logs, customer feedback; extract incident ID, priority, affected services, timeline, resolution steps, and related runbooks.
+- **Delivery**: Jira user stories, epics, and tasks; extract story ID, acceptance criteria, owner, sprint, linked components, and related PRs.
 
 ---
 
@@ -101,6 +107,16 @@ graph LR
 - "Show column mapping from `ORDERS` → `ODS_ORDERS`" → returns mapping doc and chunked mapping table.  
 
 ---
+
+## End users & sample use cases
+
+- **Data Engineer / ETL Owner** — Use cases: "Which jobs populate `VLOCATION_HIST` and who owns them?"; "Show recent incidents affecting the `MENSA` data pipeline."  
+- **Support / SRE / On-call** — Use cases: "Show runbooks and incident resolution steps for recent outages"; "List open tickets related to Teradata replication."  
+- **Data Analyst / BI Developer** — Use cases: "Where is metric X defined and which views feed the dashboard?"; "Find SQL used by view `VACCOUNT`."  
+- **Product Manager / Delivery** — Use cases: "Which Jira stories implement feature Y? What acceptance criteria were agreed?"; "Show related design docs and PRs."  
+- **Data Steward / Compliance** — Use cases: "Which documents discuss PII handling or retention policies?"; "List confidential datasets and owners."  
+- **Developer** — Use cases: "Where is the SQL or ETL code that creates this view? What PR changed it?"  
+- **Business Analyst / PM** — Use cases: "Summarize recent customer feedback about billing issues and link to support tickets."
 
 ## Implementation Checklist (prioritized)
 

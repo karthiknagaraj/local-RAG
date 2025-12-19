@@ -7,16 +7,16 @@
 ```mermaid
 flowchart LR
   subgraph Sources
-    A1[Confluence / Wiki]
-    A2[Git Repositories (Markdown, SQL)]
-    A3[Local File System (PDF, DOCX, PPT, XLSX)]
-    A4[Teradata (GCVE) - Exports / CDC]
-    A5[GCS / S3 Buckets (Parquet / CSV)]
-    A6[Reports & Dashboards (BigQuery, Looker, Tableau)]
+    A1[Confluence Wiki]
+    A2[Git - Markdown / SQL]
+    A3[Local Files - PDF DOCX PPT XLSX]
+    A4[Teradata GCVE Exports / CDC]
+    A5[GCS S3 - Parquet / CSV]
+    A6[Reports & Dashboards - BigQuery / Looker / Tableau]
   end
 
   subgraph Connectors
-    C[Connector Workers / Syncers\n(Confluence API, Git sync, GCVE exporter, GCS watch)]
+    C[Connector Workers / Syncers<br>Confluence API / Git sync / GCVE exporter / GCS watch]
   end
 
   A1 --> C
@@ -27,20 +27,20 @@ flowchart LR
   A6 --> C
 
   C --> D[Fetch & Normalize]
-  D --> E[Parsing & Extraction\n(text, images, tables, SQL, DDL)]
-  E --> F[Preprocess & Chunking\n(chunk_size=1200, overlap=200)]
-  F --> G[Embeddings\n(all-MiniLM-L6-v2)]
-  G --> H[Vector Index (FAISS / Local)]
-  F --> M[Metadata Store (JSONL / SQLite / Postgres)]
+  D --> E[Parsing & Extraction<br>text / images / tables / SQL / DDL]
+  E --> F[Preprocess & Chunking<br>chunk_size=1200 overlap=200]
+  F --> G[Embeddings<br>all-MiniLM-L6-v2]
+  G --> H[Vector Index - FAISS (local)]
+  F --> M[Metadata Store - JSONL / SQLite / Postgres]
 
-  H --> R[Retrieval Layer (top-K + filters)]
+  H --> R[Retrieval Layer - top-K + filters]
   M --> R
 
-  R --> LLM[LLM (Local Qwen 2.5 GGUF)]
-  LLM --> UI[Web UI (Gradio)]
+  R --> LLM[LLM - Local Qwen 2.5 GGUF]
+  LLM --> UI[Web UI - Gradio]
   LLM --> API[CLI / HTTP API]
 
-  UI --> FB[User Feedback (thumbs up/down)]
+  UI --> FB[User Feedback - thumbs up / down]
   FB --> N[Relevance Signals & Retrain / Reindex]
   N --> G
 
@@ -50,7 +50,7 @@ flowchart LR
   Q -.-> M
 
   classDef sources fill:#f9f,stroke:#333,stroke-width:1px;
-  class Sources sources
+  class A1,A2,A3,A4,A5,A6 sources
 ```
 
 ---
